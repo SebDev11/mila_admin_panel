@@ -126,7 +126,7 @@ export function ErrorModal({
                 )}
                 {type === "info" && showButton === false && (
                   <div className="mt-4 flex justify-center">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                    <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-500 border-t-transparent"></div>
                   </div>
                 )}
               </div>

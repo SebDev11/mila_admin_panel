@@ -141,7 +141,7 @@ const PendingRegistrations = () => {
     return (
       <div className="flex items-center justify-center min-h-[600px]">
         <div className="flex flex-col items-center gap-4">
-          <RefreshCw className="w-12 h-12 text-blue-500 animate-spin" />
+          <div className="animate-spin w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full mb-4"></div>
           <p className="text-gray-300 text-lg font-medium">Loading pending registrations...</p>
         </div>
       </div>
@@ -462,7 +462,7 @@ const PendingRegistrations = () => {
                       >
                         {approving === user.id ? (
                           <>
-                            <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 animate-spin inline mr-2" />
+                            <div className="animate-spin w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full inline-block mr-2"></div>
                             <span>Approving...</span>
                           </>
                         ) : expired ? (

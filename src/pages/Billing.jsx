@@ -231,7 +231,7 @@ export function Billing() {
       <div className="p-6 max-w-7xl mx-auto">
         <div className="flex items-center justify-center min-h-[400px]">
           <Card className="p-8 text-center bg-slate-800/60 border-slate-600/50 backdrop-blur-sm shadow-xl">
-            <div className="animate-spin w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+            <div className="animate-spin w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
             <div className="text-blue-200">Loading billing data...</div>
           </Card>
       </div>
@@ -703,7 +703,7 @@ export function Billing() {
               >
                 {addLoading ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-2 border-white border-t-transparent"></div>
                     <span>Creating Plan...</span>
                   </>
                 ) : (
@@ -820,7 +820,7 @@ export function Billing() {
                       >
                         {saving[plan.name] ? (
                           <>
-                            <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-blue-400"></div>
+                            <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-2 border-blue-400 border-t-transparent"></div>
                             <span className="hidden sm:inline">Saving...</span>
                             <span className="sm:hidden">Save</span>
                           </>
@@ -841,7 +841,7 @@ export function Billing() {
                       >
                         {removing[plan.name] ? (
                           <>
-                            <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-red-400"></div>
+                            <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-2 border-red-400 border-t-transparent"></div>
                             <span className="hidden sm:inline">Removing...</span>
                             <span className="sm:hidden">Del</span>
                           </>
@@ -931,7 +931,7 @@ export function Billing() {
                 >
                   {saving[plan.name] ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-400"></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
                       <span>Saving...</span>
                     </>
                   ) : (
@@ -950,7 +950,7 @@ export function Billing() {
                 >
                   {removing[plan.name] ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-400"></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-red-400 border-t-transparent"></div>
                       <span>Removing...</span>
                     </>
                   ) : (
