@@ -8,6 +8,7 @@ import { CampaignList } from "./pages/app/CampaignList";
 import { CampaignDetail } from "./pages/app/CampaignDetail";
 import { UserDetail } from "./pages/admin/UserDetail";
 import UserList from "./pages/admin/UserList";
+import PendingRegistrations from "./pages/admin/PendingRegistrations";
 import { Billing } from "./pages/Billing";
 import { RestrictionPage } from "./pages/RestrictionPage";
 import AuthPage from "./pages/auth/AuthPage";
@@ -31,6 +32,7 @@ function AppRoutes() {
         <Route path="campaign/:id" element={<CampaignDetail />} />
         <Route path="users" element={<UserList />} />
         <Route path="user/:id" element={<UserDetail />} />
+        <Route path="pending-registrations" element={<PendingRegistrations />} />
         <Route path="billing" element={<Billing />} />
         <Route path="restrictions" element={<RestrictionPage />} />
       </Route>

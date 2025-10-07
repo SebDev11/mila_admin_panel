@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
-import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, CheckCircle } from 'lucide-react';
 
 const RegisterForm = ({ onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,8 @@ const RegisterForm = ({ onSwitchToLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [registrationPending, setRegistrationPending] = useState(false);
+  const [pendingMessage, setPendingMessage] = useState('');
   const { register, loading } = useAuth();
 
   const handleChange = (e) => {
@@ -77,14 +79,55 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     if (!result.success) {
       return;
     }
+
+    // Check if registration is pending approval
+    if (result.pendingApproval) {
+      setRegistrationPending(true);
+      setPendingMessage(result.message || 'Your registration is pending admin approval. You will be able to login once approved.');
+    }
   };
+
+  // Show pending approval message after successful registration
+  if (registrationPending) {
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <div className="bg-[#0b1120] p-8 rounded-lg shadow-xl border border-gray-800">
+          <div className="text-center mb-6">
+            <div className="flex justify-center mb-4">
+              <div className="bg-blue-500 bg-opacity-20 p-4 rounded-full">
+                <CheckCircle className="w-16 h-16 text-blue-400" />
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-white mb-3">Registration Submitted!</h2>
+            <div className="bg-blue-900 bg-opacity-30 border border-blue-800 rounded-lg p-4 mb-6">
+              <p className="text-blue-200 text-sm leading-relaxed">
+                {pendingMessage}
+              </p>
+            </div>
+            <div className="bg-gray-800 rounded-lg p-4 mb-6">
+              <p className="text-gray-300 text-sm">
+                An admin will review your registration request. You'll be able to login once your account is approved.
+              </p>
+            </div>
+          </div>
+
+          <Button
+            onClick={onSwitchToLogin}
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200"
+          >
+            Back to Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="bg-[#0b1120] p-8 rounded-lg shadow-xl border border-gray-800">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-2">Admin Registration</h2>
-          <p className="text-gray-400">Create a new admin account</p>
+          <p className="text-gray-400">Request admin panel access</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

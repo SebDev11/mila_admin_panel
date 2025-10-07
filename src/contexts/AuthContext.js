@@ -72,7 +72,9 @@ export const AuthProvider = ({ children }) => {
         if (status === 401) {
           errorMessage = 'Invalid email or password';
         } else if (status === 403) {
-          if (data.message?.includes('suspended')) {
+          if (data.message?.includes('pending admin approval')) {
+            errorMessage = 'Your account is pending admin approval. Please wait for approval.';
+          } else if (data.message?.includes('suspended')) {
             errorMessage = 'Account is suspended. Please contact administrator.';
           } else if (data.message?.includes('Admin privileges')) {
             errorMessage = 'Access denied. Admin privileges required.';
@@ -106,20 +108,33 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       const response = await api.post('/auth/register', userData);
       
-      const { token, user: newUser } = response.data;
+      const { status, message, user: newUser } = response.data;
       
-      // Store token in localStorage
-      localStorage.setItem('admin_token', token);
+      // Check if registration requires approval
+      if (status === 'pending_approval') {
+        toast.success(message || 'Registration submitted! Your account is pending admin approval.', {
+          duration: 6000,
+          icon: '⏳',
+        });
+        return { 
+          success: true, 
+          pendingApproval: true,
+          message: message
+        };
+      }
       
-      // Set default authorization header
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // Legacy flow: if token is returned (shouldn't happen with new flow)
+      const { token } = response.data;
+      if (token) {
+        localStorage.setItem('admin_token', token);
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        setUser(newUser);
+        setIsAuthenticated(true);
+        toast.success('Registration successful!');
+        return { success: true, pendingApproval: false };
+      }
       
-      // Update state
-      setUser(newUser);
-      setIsAuthenticated(true);
-      
-      toast.success('Registration successful!');
-      return { success: true };
+      return { success: true, pendingApproval: false };
     } catch (error) {
       console.error('Registration error:', error);
       
