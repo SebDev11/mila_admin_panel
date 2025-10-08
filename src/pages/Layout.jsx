@@ -15,11 +15,13 @@ import {
   Menu,
   X
 } from 'lucide-react';
+import { ConfirmationModal } from '../components/billing/ConfirmationModal';
 
 function Layout() {
   const { user, logout } = useAuth();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const navigationItems = [
     { path: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -38,6 +40,11 @@ function Layout() {
       return location.pathname.startsWith('/users') || location.pathname.startsWith('/user/');
     }
     return location.pathname.startsWith(path);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setShowLogoutModal(false);
   };
 
   return (
@@ -84,7 +91,7 @@ function Layout() {
             
             {/* Logout Button */}
             <button
-              onClick={logout}
+              onClick={() => setShowLogoutModal(true)}
               className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 hover:border-red-500/50 rounded-lg sm:rounded-xl transition-all duration-300 group transform hover:scale-105"
             >
               <LogOut className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 group-hover:text-red-300" />
@@ -227,6 +234,18 @@ function Layout() {
           </div>
         </main>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogout}
+        title="Sign Out"
+        message="Are you sure you want to sign out? You will need to log in again to access the admin panel."
+        confirmText="Sign Out"
+        cancelText="Cancel"
+        type="danger"
+      />
     </div>
   );
 }
