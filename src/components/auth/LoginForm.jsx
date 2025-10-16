@@ -122,6 +122,17 @@ const LoginForm = ({ onSwitchToRegister }) => {
             )}
           </div>
 
+          <div className="flex items-center justify-end mb-4">
+            <button
+              type="button"
+              onClick={() => window.location.href = '/forgot-password'}
+              className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
+              disabled={loading}
+            >
+              Forgot Password?
+            </button>
+          </div>
+
           <Button
             type="submit"
             className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"

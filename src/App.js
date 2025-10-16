@@ -12,6 +12,8 @@ import PendingRegistrations from "./pages/admin/PendingRegistrations";
 import { Billing } from "./pages/Billing";
 import { RestrictionPage } from "./pages/RestrictionPage";
 import AuthPage from "./pages/auth/AuthPage";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 
 function AppRoutes() {
   const { isAuthenticated } = useAuth();
@@ -21,6 +23,14 @@ function AppRoutes() {
       <Route 
         path="/login" 
         element={isAuthenticated ? <Navigate to="/" replace /> : <AuthPage />} 
+      />
+      <Route 
+        path="/forgot-password" 
+        element={isAuthenticated ? <Navigate to="/" replace /> : <ForgotPasswordPage />} 
+      />
+      <Route 
+        path="/reset-password" 
+        element={isAuthenticated ? <Navigate to="/" replace /> : <ResetPasswordPage />} 
       />
       <Route path="/" element={
         <ProtectedRoute>
