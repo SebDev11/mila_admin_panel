@@ -3,11 +3,15 @@ import { api } from "../../services/api";
 import { Link } from "react-router-dom";
 import { Card } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
+import ResetPasswordModal from "../../components/admin/ResetPasswordModal";
+import { useAuth } from "../../contexts/AuthContext";
 
 function UserList() {
+  const { user: currentUser } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -130,16 +134,30 @@ function UserList() {
                   </td>
                   <td className="px-3 sm:px-6 py-3 sm:py-4">{getStatusBadge(user.isVerified)}</td>
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
-                    <Link to={`/user/${user._id}`}>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="text-xs px-2 sm:px-4 py-1.5 sm:py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border-blue-500/30 hover:border-blue-500/50 transition-all duration-200"
-                      >
-                        <span className="hidden sm:inline">View Details</span>
-                        <span className="sm:hidden">View</span>
-                      </Button>
-                    </Link>
+                    <div className="flex items-center gap-2">
+                      <Link to={`/user/${user._id}`}>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-xs px-2 sm:px-4 py-1.5 sm:py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border-blue-500/30 hover:border-blue-500/50 transition-all duration-200"
+                        >
+                          <span className="hidden sm:inline">View Details</span>
+                          <span className="sm:hidden">View</span>
+                        </Button>
+                      </Link>
+                      {currentUser && user._id === currentUser.id && (
+                        <Button 
+                          onClick={() => setSelectedUser(user)}
+                          size="sm" 
+                          className="text-xs px-2 sm:px-3 py-1.5 sm:py-2 bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 border border-orange-500/30 hover:border-orange-500/50 transition-all duration-200"
+                        >
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                          </svg>
+                          <span className="hidden lg:inline ml-1">Reset</span>
+                        </Button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -147,6 +165,17 @@ function UserList() {
           </table>
         </div>
       </Card>
+
+      {/* Reset Password Modal */}
+      {selectedUser && (
+        <ResetPasswordModal
+          user={selectedUser}
+          onClose={() => setSelectedUser(null)}
+          onSuccess={() => {
+            // Optionally refresh user list
+          }}
+        />
+      )}
     </div>
   );
 }
